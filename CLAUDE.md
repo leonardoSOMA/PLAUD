@@ -33,6 +33,17 @@ Se a gravação existir mas não tiver transcrição, explique que ela precisa s
 - Para transformar uma reunião em kit de gestão, use a skill `/reuniao-plaud` (em `.claude/skills/reuniao-plaud/`).
 - Para visões consolidadas (ex.: "reuniões da semana"), liste as gravações do período com `list_files` e monte um quadro: data, cliente, assunto, pendências abertas, próximo passo.
 
+## Automação agendada
+
+A rotina **"Plaud: processar reuniões novas"** roda de segunda a sábado, às 11:47, 15:47 e 18:47 (horário de Brasília), cada vez numa sessão nova, e segue o procedimento de `/automacao-plaud`:
+
+- procura gravações dos últimos 7 dias que ainda não têm ata na Google Agenda;
+- confere as falas técnicas do Leonardo (✅ / ⚠️ / ❌, com fonte);
+- cria na Google Agenda a ata (no horário da reunião, sem alerta) e um evento com lembretes para cada combinado com data;
+- termina com um resumo curto, que chega como notificação no celular e por e-mail.
+
+O marcador `plaud-id: <ID>` na descrição dos eventos é o que evita processar a mesma gravação duas vezes.
+
 ## Regras de qualidade
 
 - **Não invente.** Todo número, nome, prazo ou fato deve vir da gravação. Indique o minuto (`[mm:ss]`) de onde saiu.
@@ -46,7 +57,7 @@ Se a gravação existir mas não tiver transcrição, explique que ela precisa s
 
 - **Nunca** grave transcrições, dados de clientes ou saídas geradas no repositório git. Se precisar salvar algo localmente, use a pasta `privado/` (ignorada pelo git).
 - Não envie e-mails. Quando o usuário pedir, crie apenas **rascunhos** no Gmail.
-- Só salve no Google Drive, crie eventos no Google Agenda ou publique páginas quando o usuário pedir.
+- Só salve no Google Drive, crie eventos no Google Agenda ou publique páginas quando o usuário pedir. Exceção autorizada pelo usuário: a automação `/automacao-plaud` cria sozinha a ata e os lembretes dos combinados na Google Agenda, com as travas descritas na skill.
 - Use o mínimo de dados pessoais necessário; não repita CPF, dados bancários ou informações sensíveis que não sejam essenciais ao entregável.
 
 ## Integrações disponíveis (quando conectadas)

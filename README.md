@@ -36,7 +36,26 @@ O kit traz: ficha da reunião, resumo executivo, ficha tributária (com o minuto
 - "Monte a ficha tributária do cliente a partir da reunião de diagnóstico de ontem e marque o que ainda precisa ser confirmado."
 - "Liste as reuniões desta semana com cliente, assunto, pendências abertas e próximo passo."
 
-## 4. LGPD e sigilo profissional
+## 4. Automação: reuniões novas processadas sozinhas
+
+A rotina **"Plaud: processar reuniões novas"** roda de segunda a sábado, às 11:47, 15:47 e 18:47 (horário de Brasília). A cada execução:
+
+1. Procura gravações dos últimos 7 dias que ainda não foram processadas.
+2. Lê a transcrição, resume a reunião e confere as suas falas técnicas (✅ consistente, ⚠️ conferir, ❌ provável erro), com a fonte de cada alerta.
+3. Cria na Google Agenda:
+   - a **ata**, no horário da reunião, sem alerta e sem ocupar a agenda;
+   - um **evento com lembretes** para cada combinado com data (7 dias antes e 1 dia antes). Por exemplo, "em março" vira o primeiro dia útil de março, às 9h.
+4. Manda um resumo como notificação no celular (app do Claude) e por e-mail.
+
+Travas: a automação só cria eventos. Ela nunca altera nem apaga os seus eventos, nunca convida ninguém e nunca envia e-mail.
+
+**iPhone:** os lembretes chegam no iPhone quando a conta Google está no app Calendário (*Ajustes → Calendário → Contas → Adicionar conta → Google*) ou pelo app Google Agenda com as notificações ativadas. O app Lembretes do iPhone não tem integração com o Claude.
+
+**Para rodar agora, pausar ou mudar os horários:** na lista de rotinas do Claude, ou peça numa sessão deste repositório. O comando `/automacao-plaud` executa o mesmo procedimento na hora.
+
+Se você apagar uma ata nos 7 dias seguintes à reunião, a automação processa essa reunião de novo.
+
+## 5. LGPD e sigilo profissional
 
 - Avise o cliente e registre a concordância dele antes de gravar.
 - Mencione no contrato ou na política de privacidade do escritório o uso de gravações e de ferramentas de IA, inclusive a transferência internacional de dados (LGPD, art. 33).
@@ -45,7 +64,7 @@ O kit traz: ficha da reunião, resumo executivo, ficha tributária (com o minuto
 - O sigilo profissional (NBC PG 01) continua valendo: não compartilhe transcrições fora dos canais do escritório.
 - Para revogar o acesso, desconecte o Plaud em *Conectores*.
 
-## 5. Se algo não funcionar
+## 6. Se algo não funcionar
 
 | Sintoma | O que fazer |
 |---|---|
@@ -59,8 +78,9 @@ O kit traz: ficha da reunião, resumo executivo, ficha tributária (com o minuto
 
 ```
 CLAUDE.md                        instruções do projeto para o Claude
-.claude/settings.json            libera as ferramentas de leitura do Plaud sem pedir confirmação
+.claude/settings.json            libera sem confirmação: leitura do Plaud, Google Agenda (consultar e criar) e busca na web
 .claude/skills/reuniao-plaud/    comando /reuniao-plaud (kit de gestão da reunião)
+.claude/skills/automacao-plaud/  procedimento da automação agendada (/automacao-plaud)
 privado/                         pasta local ignorada pelo git; dados de clientes nunca são versionados
 ```
 

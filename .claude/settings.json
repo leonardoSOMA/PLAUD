@@ -5,7 +5,13 @@
       "mcp__Plaud__get_file",
       "mcp__Plaud__get_note",
       "mcp__Plaud__get_transcript",
-      "mcp__Plaud__get_current_user"
+      "mcp__Plaud__get_current_user",
+      "mcp__Google_Calendar__list_calendars",
+      "mcp__Google_Calendar__list_events",
+      "mcp__Google_Calendar__search_events",
+      "mcp__Google_Calendar__get_event",
+      "mcp__Google_Calendar__create_event",
+      "WebSearch"
     ]
   }
 }
