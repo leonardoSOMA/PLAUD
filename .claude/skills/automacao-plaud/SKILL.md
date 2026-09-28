@@ -15,7 +15,8 @@ A rotina roda sozinha, sem ninguém acompanhando. Não faça perguntas: decida p
 - Google Agenda: **apenas criar** eventos. Nunca alterar nem apagar eventos existentes. Nunca adicionar convidados. Em todo evento: `visibility: "private"` e `notificationLevel: "NONE"`.
 - Não enviar e-mails nem mensagens. Não alterar arquivos do repositório, não fazer commit nem push.
 - Não inventar números, fatos ou datas. Transcrições erram números e nomes: na dúvida, sinalize.
-- Se as ferramentas do Plaud ou da Google Agenda não estiverem disponíveis (carregue-as pelo ToolSearch), pare e responda: "Automação Plaud: sem acesso ao <Plaud/Google Agenda>. Reconecte em claude.ai/customize/connectors."
+- Não copiar para a agenda números de documentos (CPF, CNPJ), IDs de aparelhos, e-mails ou telefones citados na gravação.
+- Se as ferramentas do Plaud ou da Google Agenda não estiverem disponíveis (carregue-as pelo ToolSearch), pare e responda: "Automação Plaud: sem acesso ao <Plaud/Google Agenda>. Em claude.ai/code/routines, edite esta rotina e inclua os conectores Plaud e Google Calendar; se já estiverem incluídos, reconecte-os em claude.ai/customize/connectors."
 
 ## 1. Encontrar gravações novas
 
@@ -65,7 +66,7 @@ Ordem obrigatória: a ata primeiro, porque é ela que marca a gravação como pr
   - prazo relativo ("em 15 dias"): conte a partir da data da reunião.
 - Considere os feriados nacionais ao escolher o dia útil. Não crie eventos em datas já passadas; registre-os no resumo.
 - Lembretes (`overrideReminders`): popup 10080, popup 1440 e email 10080 minutos. Se o evento for em menos de 7 dias, use só popup 1440 (ou 60, se for no dia seguinte).
-- `colorId: "10"`. Descrição: o que fazer, por quê, trecho `[mm:ss]` e, na última linha, `plaud-id: <ID sem of_>`.
+- `availability: AVAILABILITY_FREE` (lembrete não bloqueia a agenda) e `colorId: "10"`. Descrição: o que fazer, por quê, trecho `[mm:ss]` e, na última linha, `plaud-id: <ID sem of_>`.
 
 ### 4.3 Combinados sem data
 

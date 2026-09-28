@@ -49,7 +49,13 @@ A rotina **"Plaud: processar reuniões novas"** roda de segunda a sábado, às 1
 
 Travas: a automação só cria eventos. Ela nunca altera nem apaga os seus eventos, nunca convida ninguém e nunca envia e-mail.
 
-**iPhone:** os lembretes chegam no iPhone quando a conta Google está no app Calendário (*Ajustes → Calendário → Contas → Adicionar conta → Google*) ou pelo app Google Agenda com as notificações ativadas. O app Lembretes do iPhone não tem integração com o Claude.
+**Configuração única da rotina:** rotinas criadas pelo chat não levam conectores. Em [claude.ai/code/routines](https://claude.ai/code/routines) (ou no app desktop: aba *Code → Routines*), abra "Plaud: processar reuniões novas", clique no menu ao lado do nome → **Edit** e:
+
+1. em *Repositories*, adicione `leonardoSOMA/PLAUD`;
+2. em *Connectors*, deixe **apenas Plaud e Google Calendar** (sem Gmail nem Drive, para a automação não conseguir enviar e-mails nem mexer em arquivos);
+3. salve e clique em **Run now** para testar.
+
+**iPhone:** os lembretes chegam no iPhone quando a conta Google está no app Calendário (*Ajustes → Apps → Calendário → Contas → Adicionar conta → Google*, no iOS 18 ou mais recente) ou pelo app Google Agenda com as notificações ativadas. O app Lembretes do iPhone não tem integração com o Claude.
 
 **Para rodar agora, pausar ou mudar os horários:** na lista de rotinas do Claude, ou peça numa sessão deste repositório. O comando `/automacao-plaud` executa o mesmo procedimento na hora.
 
