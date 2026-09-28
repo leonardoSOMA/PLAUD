@@ -35,12 +35,12 @@ Se a gravação existir mas não tiver transcrição, explique que ela precisa s
 
 ## Automação agendada
 
-A rotina **"Plaud: processar reuniões novas"** roda de segunda a sábado, às 11:47, 15:47 e 18:47 (horário de Brasília), cada vez numa sessão nova, e segue o procedimento de `/automacao-plaud`:
+A rotina **"Plaud: processar reuniões novas"** roda de segunda a sábado, às 11:47, 15:47 e 18:47 (horário de Brasília), sempre dentro da sessão "Automação Plaud" (nesta organização, rotinas que abrem sessões novas não recebem conectores), e segue o procedimento de `/automacao-plaud`:
 
 - procura gravações dos últimos 7 dias que ainda não têm ata na Google Agenda;
 - confere as falas técnicas do Leonardo (✅ / ⚠️ / ❌, com fonte);
 - cria na Google Agenda a ata (no horário da reunião, sem alerta) e um evento com lembretes para cada combinado com data;
-- termina com um resumo curto, que chega como notificação no celular e por e-mail.
+- termina com um resumo curto e, se houver novidade, avisa no celular.
 
 O marcador `plaud-id: <ID>` na descrição dos eventos é o que evita processar a mesma gravação duas vezes.
 

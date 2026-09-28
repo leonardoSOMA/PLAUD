@@ -5,7 +5,7 @@ description: Rotina automática do escritório. Procura gravações novas no Pla
 
 # Automação: reuniões novas do Plaud → conferência → agenda → resumo
 
-Este é o mesmo procedimento do prompt da rotina agendada "Plaud: processar reuniões novas". Ao mudar um, mude o outro.
+A rotina agendada "Plaud: processar reuniões novas" roda este procedimento dentro da sessão "Automação Plaud", que tem acesso aos conectores do Plaud e da Google Agenda.
 
 A rotina roda sozinha, sem ninguém acompanhando. Não faça perguntas: decida pelas regras abaixo e registre as dúvidas no resumo final. Responda em português do Brasil.
 
@@ -16,7 +16,7 @@ A rotina roda sozinha, sem ninguém acompanhando. Não faça perguntas: decida p
 - Não enviar e-mails nem mensagens. Não alterar arquivos do repositório, não fazer commit nem push.
 - Não inventar números, fatos ou datas. Transcrições erram números e nomes: na dúvida, sinalize.
 - Não copiar para a agenda números de documentos (CPF, CNPJ), IDs de aparelhos, e-mails ou telefones citados na gravação.
-- Se as ferramentas do Plaud ou da Google Agenda não estiverem disponíveis (carregue-as pelo ToolSearch), pare e responda: "Automação Plaud: sem acesso ao <Plaud/Google Agenda>. Em claude.ai/code/routines, edite esta rotina e inclua os conectores Plaud e Google Calendar; se já estiverem incluídos, reconecte-os em claude.ai/customize/connectors."
+- Se as ferramentas do Plaud ou da Google Agenda não estiverem disponíveis (carregue-as pelo ToolSearch), pare, avise pelo passo 6 e responda: "Automação Plaud: sem acesso ao <Plaud/Google Agenda>. Reconecte o conector em claude.ai/customize/connectors."
 
 ## 1. Encontrar gravações novas
 
@@ -24,6 +24,8 @@ A rotina roda sozinha, sem ninguém acompanhando. Não faça perguntas: decida p
 - `start_at` vem em UTC: converta para `America/Sao_Paulo` (UTC−3). Fim = início + `duration` (em milissegundos).
 - Já processada? `list_events` no calendário principal com `fullText` = ID da gravação sem o prefixo `of_`, `startTime` = 1 dia antes do início e `endTime` = 1 dia depois. Se houver um evento "📝 Ata ·" com esse ID, pule a gravação.
 - Sem transcrição ainda: não processe; anote como "aguardando transcrição". A próxima execução tenta de novo.
+- Gravação curta (menos de 2 minutos, como uma nota de voz): trate como lembrete rápido. A ata pode ter uma linha só; se houver tarefa com data, crie o combinado.
+- Gravações simultâneas ou sobrepostas podem cobrir o mesmo assunto: não duplique combinados entre elas.
 
 ## 2. Ler
 
@@ -74,7 +76,7 @@ Não crie evento. Liste no resumo como "sem data".
 
 ## 5. Resumo final
 
-A última mensagem da execução é a notificação que chega no celular e por e-mail. Formato:
+A última mensagem da execução fica registrada na sessão "Automação Plaud". Formato:
 
 ```
 Plaud · N reunião(ões) nova(s)
@@ -90,3 +92,12 @@ Erros: <se houver>
 ```
 
 Se não houver gravação nova nem pendente, responda apenas: `Nenhuma reunião nova.`
+
+## 6. Aviso no celular
+
+Só quando houver novidade (reunião processada, gravação aguardando transcrição ou erro):
+
+1. Envie o resumo em uma linha, com até 200 caracteres, pelo `PushNotification`.
+2. Se o `PushNotification` não for entregue, crie na Google Agenda um aviso `📬 Plaud · <resumo curto>`: começa daqui a 2 minutos e dura 15 minutos, `availability: AVAILABILITY_FREE`, `visibility: "private"`, sem convidados e com um único lembrete popup de 0 minuto. Na descrição, repita o resumo final.
+
+Sem novidade, não avise.

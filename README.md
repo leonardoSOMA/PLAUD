@@ -38,22 +38,20 @@ O kit traz: ficha da reunião, resumo executivo, ficha tributária (com o minuto
 
 ## 4. Automação: reuniões novas processadas sozinhas
 
-A rotina **"Plaud: processar reuniões novas"** roda de segunda a sábado, às 11:47, 15:47 e 18:47 (horário de Brasília). A cada execução:
+A rotina **"Plaud: processar reuniões novas"** roda de segunda a sábado, às 11:47, 15:47 e 18:47 (horário de Brasília), sempre dentro da sessão **"Automação Plaud"** do Claude. É essa sessão que tem acesso ao Plaud e à Google Agenda: nesta organização, rotinas que abrem sessões novas não recebem conectores. A cada execução:
 
 1. Procura gravações dos últimos 7 dias que ainda não foram processadas.
 2. Lê a transcrição, resume a reunião e confere as suas falas técnicas (✅ consistente, ⚠️ conferir, ❌ provável erro), com a fonte de cada alerta.
 3. Cria na Google Agenda:
    - a **ata**, no horário da reunião, sem alerta e sem ocupar a agenda;
    - um **evento com lembretes** para cada combinado com data (7 dias antes e 1 dia antes). Por exemplo, "em março" vira o primeiro dia útil de março, às 9h.
-4. Manda um resumo como notificação no celular (app do Claude) e por e-mail.
+4. Quando há novidade, avisa no celular. Se o aviso do app do Claude não for entregue, cria na agenda um alerta "📬 Plaud · …".
+
+O resumo completo de cada execução fica na sessão "Automação Plaud", na lista de sessões do Claude Code.
 
 Travas: a automação só cria eventos. Ela nunca altera nem apaga os seus eventos, nunca convida ninguém e nunca envia e-mail.
 
-**Configuração única da rotina:** rotinas criadas pelo chat não levam conectores. Em [claude.ai/code/routines](https://claude.ai/code/routines) (ou no app desktop: aba *Code → Routines*), abra "Plaud: processar reuniões novas", clique no menu ao lado do nome → **Edit** e:
-
-1. em *Repositories*, adicione `leonardoSOMA/PLAUD`;
-2. em *Connectors*, deixe **apenas Plaud e Google Calendar** (sem Gmail nem Drive, para a automação não conseguir enviar e-mails nem mexer em arquivos);
-3. salve e clique em **Run now** para testar.
+Não arquive nem apague a sessão "Automação Plaud": a rotina depende dela.
 
 **iPhone:** os lembretes chegam no iPhone quando a conta Google está no app Calendário (*Ajustes → Apps → Calendário → Contas → Adicionar conta → Google*, no iOS 18 ou mais recente) ou pelo app Google Agenda com as notificações ativadas. O app Lembretes do iPhone não tem integração com o Claude.
 
