@@ -1,0 +1,14 @@
+# Dados de clientes nunca vão para o git (LGPD e sigilo profissional)
+privado/*
+!privado/.gitkeep
+
+# Áudios e legendas exportados do Plaud
+*.mp3
+*.m4a
+*.wav
+*.ogg
+*.opus
+*.srt
+
+# Configurações pessoais do Claude Code
+.claude/settings.local.json
